@@ -15,17 +15,13 @@ import { getPhotosService, createPhotoService, addCommentService } from '../serv
     if (addedComment.errors) {
         return res.status(500).json({ message: 'Failed to create comment' });
     }
-
     return res.status(201).json(addedComment);
-
-
   }
 
   export async function createPhoto(req,res) {
     const {name, artistName, describtion, img}= req.body
     const photo = await createPhotoService(name, artistName, describtion, img)
     if (photo.errors) {
-        console.log(photo)
         return res.status(500).json({ message: 'Failed to create image' });
 
     }
