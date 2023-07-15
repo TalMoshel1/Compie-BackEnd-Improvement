@@ -33,9 +33,9 @@ export async function addCommentService(_id, user, comment) {
     }
     photo.comments.push({ user, comment });
     await photo.save();
-    res.json(photo);
+    return photo
 } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    return error
 }
 }
 
