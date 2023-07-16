@@ -8,7 +8,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD
     try {
       mongoose.connect(`mongodb+srv://talmoshel444:${DB_PASSWORD}@cluster0.64j9f3f.mongodb.net/?retryWrites=true&w=majority`)
       .then((res)=>{
-        console.log('connected to DB!')
+        
         return res
       })
     } catch (error) {
