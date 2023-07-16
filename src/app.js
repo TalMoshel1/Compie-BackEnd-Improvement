@@ -4,7 +4,7 @@ import connectToDb from './db/connectToDb.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { Server } from 'socket.io';
-import http from 'http'; // Import the 'http' module
+import http from 'http'; 
 
 dotenv.config();
 const app = express();
@@ -15,11 +15,11 @@ const PORT =  3000;
 
 connectToDb()
   .then(() => {
-    // Create the HTTP server with the Express app
     const server = http.createServer(app);
 
-    // Listen to the HTTP server instead of the app for Socket.IO connections
-    server.listen(PORT, () => console.log(`App listening at port ${PORT}`));
+    server.listen(PORT, ()=>{
+      console.log('Server running on port 3000')
+    });
     
     const io = new Server(server, {
       cors: {
@@ -28,34 +28,26 @@ connectToDb()
       }
     });
 
-    // Your socket.io logic here
-    const comments = []; // Placeholder array for comments
+    const comments = []; 
 
     io.on('connection', (socket) => {
-      console.log('A client connected.');
 
-      // Send the initial comments to the connected client
       socket.emit('receive_comment', { data: comments });
 
       socket.on('disconnect', () => {
-        console.log('A client disconnected.');
       });
 
       socket.on('add_comment', (commentObj) => {
-        console.log('yes!!!!')
-        // Process the new comment, save it to your data storage, and emit it back to all connected clients
         const newComment = {
           user: commentObj.user,
           comment: commentObj.comment,
         };
         comments.push(newComment);
 
-        console.log(newComment)
-
         io.emit('receive_comment', {  newComment });
       });
     });
   })
   .catch((err) => {
-    console.error('Error connecting to the database:', err);
+    return err
   });
